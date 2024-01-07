@@ -7,8 +7,8 @@
 A minimal asynchronous interface to Trading 212, intended for (but not
         limited to) implementing bots.
 
-[!WARNING]
-This is very experimental and probably contains bugs and invalid documentation, use with caution
+> [!WARNING]
+> This is very experimental and probably contains bugs and invalid documentation, use with caution
 
 The API is documented [here](https://t212public-api-docs.redoc.ly/)
 It is bound to change as it is v0 and currently in Beta
