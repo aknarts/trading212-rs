@@ -1,17 +1,18 @@
 //! Dividend details model.
+//! Used by the `AccountBucketResultResponse` model.
 
 /// Dividend details.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct DividendDetails {
     /// Gained.
-    #[serde(rename = "gained", skip_serializing_if = "Option::is_none")]
-    pub gained: Option<f32>,
+    #[serde(rename = "gained")]
+    pub gained: f32,
     /// In cash.
-    #[serde(rename = "inCash", skip_serializing_if = "Option::is_none")]
-    pub in_cash: Option<f32>,
+    #[serde(rename = "inCash")]
+    pub in_cash: f32,
     /// Reinvested.
-    #[serde(rename = "reinvested", skip_serializing_if = "Option::is_none")]
-    pub reinvested: Option<f32>,
+    #[serde(rename = "reinvested")]
+    pub reinvested: f32,
 }
 
 impl DividendDetails {
@@ -19,9 +20,9 @@ impl DividendDetails {
     #[must_use]
     pub const fn new() -> Self {
         Self {
-            gained: None,
-            in_cash: None,
-            reinvested: None,
+            gained: 0.0,
+            in_cash: 0.0,
+            reinvested: 0.0,
         }
     }
 }

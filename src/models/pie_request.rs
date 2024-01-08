@@ -53,18 +53,22 @@ impl TryFrom<AccountBucketInstrumentsDetailedResponse> for PieRequest {
 
     fn try_from(bucket: AccountBucketInstrumentsDetailedResponse) -> Result<Self, Self::Error> {
         let mut instrument_shares = std::collections::HashMap::new();
-        if let Some(instruments) = bucket.instruments {
-            for instrument in instruments {
-                instrument_shares.insert(instrument.ticker, instrument.expected_share);
-            }
+
+        for instrument in bucket.instruments {
+            instrument_shares.insert(instrument.ticker, instrument.expected_share);
         }
+
         Ok(Self {
-            dividend_cash_action: bucket.settings.clone().unwrap().dividend_cash_action,
-            end_date: bucket.settings.clone().unwrap().end_date,
-            goal: bucket.settings.clone().unwrap().goal.unwrap_or_default(),
-            icon: bucket.settings.clone().unwrap().icon.unwrap_or_default(),
+            dividend_cash_action: bucket.settings.dividend_cash_action.clone(),
+            end_date: bucket
+                .settings
+                .end_date
+                .clone()
+                .unwrap_or(OffsetDateTime::now_utc()),
+            goal: bucket.settings.goal.clone().unwrap_or_default(),
+            icon: bucket.settings.icon.clone().unwrap_or_default(),
             instrument_shares,
-            name: bucket.settings.clone().unwrap().name.unwrap_or_default(),
+            name: bucket.settings.name.clone(),
         })
     }
 }

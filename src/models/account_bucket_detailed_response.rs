@@ -11,15 +11,16 @@ use time::OffsetDateTime;
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct AccountBucketDetailedResponse {
     /// Creation date
-    #[serde(rename = "creationDate", skip_serializing_if = "Option::is_none")]
-    pub creation_date: Option<String>,
+    #[serde_as(as = "Iso8601")]
+    #[serde(rename = "creationDate")]
+    pub creation_date: OffsetDateTime,
     /// Dividend cash action
     #[serde(rename = "dividendCashAction")]
     pub dividend_cash_action: DividendCashAction,
     /// End date
-    #[serde_as(as = "Iso8601")]
-    #[serde(rename = "endDate")]
-    pub end_date: OffsetDateTime,
+    #[serde_as(as = "Option<Iso8601>")]
+    #[serde(rename = "endDate", skip_serializing_if = "Option::is_none")]
+    pub end_date: Option<OffsetDateTime>,
     /// Goal
     #[serde(rename = "goal", skip_serializing_if = "Option::is_none")]
     pub goal: Option<f32>,
@@ -36,8 +37,8 @@ pub struct AccountBucketDetailedResponse {
     #[serde(rename = "instrumentShares", skip_serializing_if = "Option::is_none")]
     pub instrument_shares: Option<::std::collections::HashMap<String, f32>>,
     /// Name
-    #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
-    pub name: Option<String>,
+    #[serde(rename = "name")]
+    pub name: String,
     /// Public url
     #[serde(rename = "pubicUrl", skip_serializing_if = "Option::is_none")]
     pub pubic_url: Option<String>,
@@ -48,15 +49,15 @@ impl AccountBucketDetailedResponse {
     #[must_use]
     pub fn new() -> Self {
         Self {
-            creation_date: None,
+            creation_date: OffsetDateTime::now_utc(),
             dividend_cash_action: DividendCashAction::default(),
-            end_date: OffsetDateTime::now_utc(),
+            end_date: None,
             goal: None,
             icon: None,
             id: 0,
             initial_investment: None,
             instrument_shares: None,
-            name: None,
+            name: String::new(),
             pubic_url: None,
         }
     }
