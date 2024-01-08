@@ -5,20 +5,20 @@
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct AccountBucketInstrumentResult {
     /// Current share
-    #[serde(rename = "currentShare", skip_serializing_if = "Option::is_none")]
-    pub current_share: Option<f32>,
+    #[serde(rename = "currentShare")]
+    pub current_share: f32,
     /// Expected share
     #[serde(rename = "expectedShare")]
     pub expected_share: f32,
     /// Issues
-    #[serde(rename = "issues", skip_serializing_if = "Option::is_none")]
-    pub issues: Option<Vec<crate::models::instrument_issue::InstrumentIssue>>,
+    #[serde(rename = "issues")]
+    pub issues: Vec<crate::models::instrument_issue::InstrumentIssue>,
     /// Owned quantity
-    #[serde(rename = "ownedQuantity", skip_serializing_if = "Option::is_none")]
-    pub owned_quantity: Option<f32>,
+    #[serde(rename = "ownedQuantity")]
+    pub owned_quantity: f32,
     /// Result
-    #[serde(rename = "result", skip_serializing_if = "Option::is_none")]
-    pub result: Option<Box<crate::models::investment_result::InvestmentResult>>,
+    #[serde(rename = "result")]
+    pub result: crate::models::investment_result::InvestmentResult,
     /// Ticker
     #[serde(rename = "ticker")]
     pub ticker: String,
@@ -29,11 +29,11 @@ impl AccountBucketInstrumentResult {
     #[must_use]
     pub fn new() -> Self {
         Self {
-            current_share: None,
+            current_share: 0.0,
             expected_share: 0.0,
-            issues: None,
-            owned_quantity: None,
-            result: None,
+            issues: Vec::new(),
+            owned_quantity: 0.0,
+            result: crate::models::investment_result::InvestmentResult::new(),
             ticker: String::new(),
         }
     }

@@ -34,7 +34,7 @@ use reqwest::StatusCode;
 use serde::de::DeserializeOwned;
 use serde::Serialize;
 
-mod error;
+pub mod error;
 pub mod models;
 
 /// The target to use for the API 0
@@ -105,7 +105,6 @@ impl Client {
             .await
         {
             Ok(resp) => {
-                println!("{:?}", resp.status());
                 if resp.status() == StatusCode::UNAUTHORIZED {
                     return Err(Error::Token);
                 }
@@ -161,7 +160,6 @@ impl Client {
             .await
         {
             Ok(resp) => {
-                println!("{:?}", resp.status());
                 if resp.status() == StatusCode::UNAUTHORIZED {
                     return Err(Error::Token);
                 }
@@ -214,7 +212,6 @@ impl Client {
             .await
         {
             Ok(resp) => {
-                println!("{:?}", resp.status());
                 if resp.status() == StatusCode::UNAUTHORIZED {
                     return Err(Error::Token);
                 }
