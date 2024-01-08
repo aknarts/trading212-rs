@@ -59,16 +59,15 @@ impl TryFrom<AccountBucketInstrumentsDetailedResponse> for PieRequest {
         }
 
         Ok(Self {
-            dividend_cash_action: bucket.settings.dividend_cash_action.clone(),
+            dividend_cash_action: bucket.settings.dividend_cash_action,
             end_date: bucket
                 .settings
                 .end_date
-                .clone()
-                .unwrap_or(OffsetDateTime::now_utc()),
-            goal: bucket.settings.goal.clone().unwrap_or_default(),
-            icon: bucket.settings.icon.clone().unwrap_or_default(),
+                .unwrap_or_else(OffsetDateTime::now_utc),
+            goal: bucket.settings.goal.unwrap_or_default(),
+            icon: bucket.settings.icon.unwrap_or_default(),
             instrument_shares,
-            name: bucket.settings.name.clone(),
+            name: bucket.settings.name,
         })
     }
 }

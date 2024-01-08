@@ -29,7 +29,7 @@ pub struct AccountBucketResultResponse {
 impl AccountBucketResultResponse {
     /// Create a new `AccountBucketResultResponse`.
     #[must_use]
-    pub fn new() -> Self {
+    pub const fn new() -> Self {
         Self {
             cash: 0.0,
             dividend_details: crate::models::dividend_details::DividendDetails::new(),
