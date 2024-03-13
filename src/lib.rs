@@ -28,6 +28,7 @@ extern crate serde_json;
 extern crate url;
 
 use crate::error::Error;
+use derivative::Derivative;
 use log::{debug, error};
 use reqwest::header::HeaderValue;
 use reqwest::StatusCode;
@@ -38,6 +39,7 @@ pub mod error;
 pub mod models;
 
 /// The target to use for the API 0
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 pub enum Target {
     /// The demo account
     Demo,
@@ -46,8 +48,13 @@ pub enum Target {
 }
 
 /// The client to use for the API
+#[derive(Derivative, Debug, Clone, Serialize, Deserialize)]
+#[derivative(PartialEq)]
 pub struct Client {
     target: Target,
+    token: String,
+    #[serde(skip_serializing, skip_deserializing)]
+    #[derivative(PartialEq = "ignore")]
     client: reqwest::Client,
 }
 
@@ -78,11 +85,17 @@ impl Client {
             headers.insert(reqwest::header::AUTHORIZATION, value);
         }
 
+        error!("Headers: {:?}", headers);
+
         let client = reqwest::ClientBuilder::new()
             .user_agent(format!("{NAME}/{VERSION}"))
             .default_headers(headers);
         match client.build() {
-            Ok(c) => Ok(Self { target, client: c }),
+            Ok(c) => Ok(Self {
+                target,
+                client: c,
+                token: token.to_string(),
+            }),
             Err(e) => Err(e.into()),
         }
     }
