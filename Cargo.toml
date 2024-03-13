@@ -1,6 +1,6 @@
 [package]
 name = "trading212"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 description = "A library for interacting with the Trading212 API"
 license-file = "LICENSE"
@@ -13,13 +13,14 @@ readme = "README.md"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+derivative = "^2.2"
 serde = "^1.0"
 serde_derive = "^1.0"
 serde_json = "^1.0"
-url = "^2.2"
+url = "^2.5"
 thiserror = "1.0.34"
 time = { version = "^0.3", features = ["serde"] }
-log = "0.4.20"
+log = "0.4.21"
 uuid = { version = "^1.0", features = ["serde", "v4"] }
 serde_with = { version = "3.4.0", features = ["time_0_3"] }
 
@@ -32,4 +33,4 @@ version = "1.10"
 features = ["full"]
 
 [dev-dependencies]
-env_logger = "0.10.1"
+env_logger = "0.11"

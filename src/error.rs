@@ -37,4 +37,7 @@ pub enum Error {
     /// Missing body
     #[error("Missing body")]
     MissingBody,
+    /// Invalid Client
+    #[error("Invalid client")]
+    NoClient,
 }
