@@ -1,5 +1,7 @@
 //! `TimeEvent`
 
+use std::fmt;
+
 /// Time event
 /// Used by the `WorkingSchedule` model
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -65,6 +67,21 @@ pub enum Type {
     AfterHoursClose,
     /// Unknown
     Unknown,
+}
+
+impl fmt::Display for Type {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Open => write!(f, "Open"),
+            Self::PreMarketOpen => write!(f, "Pre-market open"),
+            Self::AfterHoursOpen => write!(f, "After-hours open"),
+            Self::BreakStart => write!(f, "Break start"),
+            Self::BreakEnd => write!(f, "Break end"),
+            Self::Close => write!(f, "Close"),
+            Self::AfterHoursClose => write!(f, "After-hours close"),
+            Self::Unknown => write!(f, "Unknown"),
+        }
+    }
 }
 
 impl Default for Type {
