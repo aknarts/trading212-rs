@@ -7,7 +7,7 @@ pub struct TradeableInstrument {
     #[serde(rename = "addedOn", skip_serializing_if = "Option::is_none")]
     pub added_on: Option<String>,
     /// ISO 4217
-    #[serde(rename = "currencyCode", skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "currencyCode")]
     pub currency_code: String,
     /// ISIN
     #[serde(rename = "isin", skip_serializing_if = "Option::is_none")]
