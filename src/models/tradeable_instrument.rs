@@ -8,7 +8,7 @@ pub struct TradeableInstrument {
     pub added_on: Option<String>,
     /// ISO 4217
     #[serde(rename = "currencyCode", skip_serializing_if = "Option::is_none")]
-    pub currency_code: Option<String>,
+    pub currency_code: String,
     /// ISIN
     #[serde(rename = "isin", skip_serializing_if = "Option::is_none")]
     pub isin: Option<String>,
@@ -25,8 +25,8 @@ pub struct TradeableInstrument {
     #[serde(rename = "shortname", skip_serializing_if = "Option::is_none")]
     pub shortname: Option<String>,
     /// Unique identifier
-    #[serde(rename = "ticker", skip_serializing_if = "Option::is_none")]
-    pub ticker: Option<String>,
+    #[serde(rename = "ticker")]
+    pub ticker: String,
     /// Type
     #[serde(rename = "type", skip_serializing_if = "Option::is_none")]
     pub r#type: Option<Type>,
@@ -41,13 +41,13 @@ impl TradeableInstrument {
     pub const fn new() -> Self {
         Self {
             added_on: None,
-            currency_code: None,
+            currency_code: String::new(),
             isin: None,
             max_open_quantity: None,
             min_trade_quantity: None,
             name: None,
             shortname: None,
-            ticker: None,
+            ticker: String::new(),
             r#type: None,
             working_schedule_id: None,
         }
