@@ -85,8 +85,6 @@ impl Client {
             headers.insert(reqwest::header::AUTHORIZATION, value);
         }
 
-        error!("Headers: {:?}", headers);
-
         let client = reqwest::ClientBuilder::new()
             .user_agent(format!("{NAME}/{VERSION}"))
             .default_headers(headers);

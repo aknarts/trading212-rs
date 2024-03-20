@@ -5,11 +5,11 @@
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct TimeEvent {
     /// Date
-    #[serde(rename = "date", skip_serializing_if = "Option::is_none")]
-    pub date: Option<String>,
+    #[serde(rename = "date", with = "time::serde::rfc3339")]
+    pub date: time::OffsetDateTime,
     /// Type
-    #[serde(rename = "type", skip_serializing_if = "Option::is_none")]
-    pub r#type: Option<Type>,
+    #[serde(rename = "type")]
+    pub r#type: Type,
 }
 
 impl TimeEvent {
@@ -17,9 +17,19 @@ impl TimeEvent {
     #[must_use]
     pub const fn new() -> Self {
         Self {
-            date: None,
-            r#type: None,
+            date: time::OffsetDateTime::UNIX_EPOCH,
+            r#type: Type::Unknown,
         }
+    }
+
+    /// Is event in the past?
+    pub fn is_past(&self) -> bool {
+        self.date < time::OffsetDateTime::now_utc()
+    }
+
+    /// Is event in the future?
+    pub fn is_future(&self) -> bool {
+        self.date > time::OffsetDateTime::now_utc()
     }
 }
 
@@ -35,24 +45,26 @@ pub enum Type {
     /// Open
     #[serde(rename = "OPEN")]
     Open,
-    /// Close
-    #[serde(rename = "CLOSE")]
-    Close,
-    /// Break start
-    #[serde(rename = "BREAK_START")]
-    BreakStart,
-    /// Break end
-    #[serde(rename = "BREAK_END")]
-    BreakEnd,
     /// Pre-market open
     #[serde(rename = "PRE_MARKET_OPEN")]
     PreMarketOpen,
     /// Pre-market close
     #[serde(rename = "AFTER_HOURS_OPEN")]
     AfterHoursOpen,
+    /// Break start
+    #[serde(rename = "BREAK_START")]
+    BreakStart,
+    /// Break end
+    #[serde(rename = "BREAK_END")]
+    BreakEnd,
+    /// Close
+    #[serde(rename = "CLOSE")]
+    Close,
     /// After-hours close
     #[serde(rename = "AFTER_HOURS_CLOSE")]
     AfterHoursClose,
+    /// Unknown
+    Unknown,
 }
 
 impl Default for Type {

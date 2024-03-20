@@ -6,18 +6,27 @@ async fn main() {
     env_logger::init();
     let token = env::var(ACCESS_TOKEN)
         .expect(format!("{} not specified in environment", ACCESS_TOKEN).as_str());
-    let client = trading212::Client::new(&token, trading212::Target::Live);
-    // match client.get_exchanges().await {
-    //     Ok(exchanges) => {
-    //         println!("Got {} exchanges", exchanges.len());
-    //         for exchange in exchanges {
-    //             println!("Exchange: {:?}", exchange.name);
-    //         }
-    //     }
-    //     Err(e) => {
-    //         println!("Failed to get exchanges: {:?}", e)
-    //     }
-    // };
+    let client = trading212::Client::new(&token, trading212::Target::Live).unwrap();
+    match client.get_exchanges().await {
+        Ok(exchanges) => {
+            println!("Got {} exchanges", exchanges.len());
+            for exchange in exchanges {
+                println!("Exchange: {:?}", exchange.name);
+                println!("Current types: {:?}", exchange.current_types());
+                println!("Current type: {:?}", exchange.current_type());
+                println!("Is tradeable: {:?}", exchange.is_tradeable());
+                println!("Next events: {:?}", exchange.next_events());
+                println!("Next event: {:?}", exchange.next_event());
+                // for times in exchange.working_schedules {
+                //     println!("Schedules state: {:?}", times);
+                // }
+                println!();
+            }
+        }
+        Err(e) => {
+            println!("Failed to get exchanges: {:?}", e)
+        }
+    };
 
     // match client.get_instruments().await {
     //     Ok(instruments) => {
