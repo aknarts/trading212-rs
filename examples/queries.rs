@@ -7,16 +7,17 @@ async fn main() {
     let token = env::var(ACCESS_TOKEN)
         .expect(format!("{} not specified in environment", ACCESS_TOKEN).as_str());
     let client = trading212::Client::new(&token, trading212::Target::Live).unwrap();
-    match client.get_exchanges().await {
-        Ok(exchanges) => {
-            println!("Got {} exchanges", exchanges.len());
-            for exchange in exchanges {
-                println!("Exchange: {:?}", exchange.name);
-                println!("Current types: {:?}", exchange.current_types());
-                println!("Current type: {:?}", exchange.current_type());
-                println!("Is tradeable: {:?}", exchange.is_tradeable());
-                println!("Next events: {:?}", exchange.next_events());
-                println!("Next event: {:?}", exchange.next_event());
+    match client.get_paid_dividends(None, None, None).await {
+        Ok(dividends) => {
+            println!("Got {} dividends", dividends.items.len());
+            for dividend in dividends.items {
+                println!("Ticker: {}", dividend.ticker);
+                println!("Amount: {:?}", dividend.amount);
+                println!("Amount in Euro: {:?}", dividend.amount_in_euro);
+                println!("Paid on: {:?}", dividend.paid_on);
+                println!("Quantity: {:?}", dividend.quantity);
+                println!("Reference: {:?}", dividend.reference);
+
                 // for times in exchange.working_schedules {
                 //     println!("Schedules state: {:?}", times);
                 // }

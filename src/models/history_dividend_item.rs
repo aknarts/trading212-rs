@@ -1,11 +1,17 @@
 //! History dividend item model
 
+use serde_with::serde_as;
+use time::format_description::well_known::Rfc3339;
+use time::OffsetDateTime;
+use uuid::Uuid;
+
 /// History dividend item.
+#[serde_as]
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct HistoryDividendItem {
     /// In instrument currency
-    #[serde(rename = "amount", skip_serializing_if = "Option::is_none")]
-    pub amount: Option<f32>,
+    #[serde(rename = "amount")]
+    pub amount: f32,
     /// In EUR
     #[serde(rename = "amountInEuro", skip_serializing_if = "Option::is_none")]
     pub amount_in_euro: Option<f32>,
@@ -16,20 +22,22 @@ pub struct HistoryDividendItem {
     )]
     pub gross_amount_per_share: Option<f32>,
     /// Paid on
-    #[serde(rename = "paidOn", skip_serializing_if = "Option::is_none")]
-    pub paid_on: Option<String>,
+    /// 2024-03-21T15:46:51.000+02:00
+    #[serde(rename = "paidOn")]
+    #[serde_as(as = "Rfc3339")]
+    pub paid_on: OffsetDateTime,
     /// Quantity
     #[serde(rename = "quantity", skip_serializing_if = "Option::is_none")]
     pub quantity: Option<f32>,
     /// Reference
-    #[serde(rename = "reference", skip_serializing_if = "Option::is_none")]
-    pub reference: Option<String>,
+    #[serde(rename = "reference")]
+    pub reference: Uuid,
     /// Ticker
-    #[serde(rename = "ticker", skip_serializing_if = "Option::is_none")]
-    pub ticker: Option<String>,
+    #[serde(rename = "ticker")]
+    pub ticker: String,
     /// Type
-    #[serde(rename = "type", skip_serializing_if = "Option::is_none")]
-    pub r#type: Option<Type>,
+    #[serde(rename = "type")]
+    pub r#type: Type,
 }
 
 impl HistoryDividendItem {
@@ -37,14 +45,14 @@ impl HistoryDividendItem {
     #[must_use]
     pub const fn new() -> Self {
         Self {
-            amount: None,
+            amount: 0.0,
             amount_in_euro: None,
             gross_amount_per_share: None,
-            paid_on: None,
+            paid_on: OffsetDateTime::UNIX_EPOCH,
             quantity: None,
-            reference: None,
-            ticker: None,
-            r#type: None,
+            reference: Uuid::nil(),
+            ticker: String::new(),
+            r#type: Type::Unknown,
         }
     }
 }
@@ -206,10 +214,12 @@ pub enum Type {
     /// Multiple 1042s tax components Manufactured Payment
     #[serde(rename = "MULTIPLE_1042S_TAX_COMPONENTS_MANUFACTURED_PAYMENT")]
     Multiple1042STaxComponentsManufacturedPayment,
+    /// Unknown
+    Unknown,
 }
 
 impl Default for Type {
     fn default() -> Self {
-        Self::Ordinary
+        Self::Unknown
     }
 }

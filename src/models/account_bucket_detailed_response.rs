@@ -49,7 +49,7 @@ impl AccountBucketDetailedResponse {
     #[must_use]
     pub fn new() -> Self {
         Self {
-            creation_date: OffsetDateTime::now_utc(),
+            creation_date: OffsetDateTime::UNIX_EPOCH,
             dividend_cash_action: DividendCashAction::default(),
             end_date: None,
             goal: None,

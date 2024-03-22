@@ -27,8 +27,8 @@ impl PublicReportRequest {
     pub fn new() -> Self {
         Self {
             data_included: crate::models::report_data_included::ReportDataIncluded::new(),
-            time_from: OffsetDateTime::now_utc(),
-            time_to: OffsetDateTime::now_utc(),
+            time_from: OffsetDateTime::UNIX_EPOCH,
+            time_to: OffsetDateTime::UNIX_EPOCH,
         }
     }
 }

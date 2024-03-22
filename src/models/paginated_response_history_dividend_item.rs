@@ -4,8 +4,8 @@
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct PaginatedResponseHistoryDividendItem {
     /// Items
-    #[serde(rename = "items", skip_serializing_if = "Option::is_none")]
-    pub items: Option<Vec<crate::models::history_dividend_item::HistoryDividendItem>>,
+    #[serde(rename = "items")]
+    pub items: Vec<crate::models::history_dividend_item::HistoryDividendItem>,
     /// Next page path
     #[serde(rename = "nextPagePath", skip_serializing_if = "Option::is_none")]
     pub next_page_path: Option<String>,
@@ -16,7 +16,7 @@ impl PaginatedResponseHistoryDividendItem {
     #[must_use]
     pub const fn new() -> Self {
         Self {
-            items: None,
+            items: Vec::new(),
             next_page_path: None,
         }
     }

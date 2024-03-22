@@ -39,7 +39,7 @@ impl PieRequest {
     pub fn new() -> Self {
         Self {
             dividend_cash_action: DividendCashAction::Reinvest,
-            end_date: OffsetDateTime::now_utc(),
+            end_date: OffsetDateTime::UNIX_EPOCH,
             goal: 0.0,
             icon: Icon::Home,
             instrument_shares: std::collections::HashMap::new(),

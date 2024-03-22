@@ -54,7 +54,7 @@ impl Position {
             current_price: 0.0,
             frontend: Executor::default(),
             fx_ppl: None,
-            initial_fill_date: OffsetDateTime::now_utc(),
+            initial_fill_date: OffsetDateTime::UNIX_EPOCH,
             max_buy: None,
             max_sell: None,
             pie_quantity: 0.0,
