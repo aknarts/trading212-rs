@@ -214,7 +214,11 @@ pub enum Type {
     /// Multiple 1042s tax components Manufactured Payment
     #[serde(rename = "MULTIPLE_1042S_TAX_COMPONENTS_MANUFACTURED_PAYMENT")]
     Multiple1042STaxComponentsManufacturedPayment,
+    /// PROPERTY_INCOME_DISTRIBUTION
+    #[serde(rename = "PROPERTY_INCOME_DISTRIBUTION")]
+    PropertyIncomeDistribution,
     /// Unknown
+    #[serde(other)]
     Unknown,
 }
 
