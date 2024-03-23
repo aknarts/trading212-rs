@@ -1,38 +1,33 @@
 //! Tradeable instrument
 
+use time::OffsetDateTime;
+
 /// Tradeable instrument
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct TradeableInstrument {
     /// On the platform since
-    #[serde(rename = "addedOn", skip_serializing_if = "Option::is_none")]
-    pub added_on: Option<String>,
+    #[serde(with = "time::serde::rfc3339")]
+    pub added_on: time::OffsetDateTime,
     /// ISO 4217
-    #[serde(rename = "currencyCode")]
     pub currency_code: String,
     /// ISIN
-    #[serde(rename = "isin", skip_serializing_if = "Option::is_none")]
-    pub isin: Option<String>,
+    pub isin: String,
     /// A single order must be equal to or less than this value
-    #[serde(rename = "maxOpenQuantity", skip_serializing_if = "Option::is_none")]
-    pub max_open_quantity: Option<f32>,
+    pub max_open_quantity: f64,
     /// A single order must be equal to or exceed this value
-    #[serde(rename = "minTradeQuantity", skip_serializing_if = "Option::is_none")]
-    pub min_trade_quantity: Option<f32>,
+    pub min_trade_quantity: f64,
     /// Name
-    #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
-    pub name: Option<String>,
+    pub name: String,
     /// Short name
-    #[serde(rename = "shortname", skip_serializing_if = "Option::is_none")]
-    pub shortname: Option<String>,
+    pub short_name: String,
     /// Unique identifier
-    #[serde(rename = "ticker")]
     pub ticker: String,
     /// Type
-    #[serde(rename = "type", skip_serializing_if = "Option::is_none")]
-    pub r#type: Option<Type>,
+    #[serde(rename = "type")]
+    pub r#type: Type,
     /// Get items in the /exchanges endpoint
-    #[serde(rename = "workingScheduleId", skip_serializing_if = "Option::is_none")]
-    pub working_schedule_id: Option<i64>,
+    pub working_schedule_id: i64,
 }
 
 impl TradeableInstrument {
@@ -40,16 +35,16 @@ impl TradeableInstrument {
     #[must_use]
     pub const fn new() -> Self {
         Self {
-            added_on: None,
+            added_on: OffsetDateTime::UNIX_EPOCH,
             currency_code: String::new(),
-            isin: None,
-            max_open_quantity: None,
-            min_trade_quantity: None,
-            name: None,
-            shortname: None,
+            isin: String::new(),
+            max_open_quantity: 0.0,
+            min_trade_quantity: 0.0,
+            name: String::new(),
+            short_name: String::new(),
             ticker: String::new(),
-            r#type: None,
-            working_schedule_id: None,
+            r#type: Type::Unknown,
+            working_schedule_id: 0,
         }
     }
 }
@@ -93,6 +88,9 @@ pub enum Type {
     /// Corpact
     #[serde(rename = "CORPACT")]
     Corpact,
+    /// Unknown
+    #[serde(other)]
+    Unknown,
 }
 
 impl Default for Type {
