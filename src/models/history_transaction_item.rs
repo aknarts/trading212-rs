@@ -1,20 +1,27 @@
 //! History transaction item model
 
+use serde_with::serde_as;
+use time::format_description::well_known::Rfc3339;
+use time::OffsetDateTime;
+use uuid::Uuid;
+
 /// History transaction item.
+#[serde_as]
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct HistoryTransactionItem {
     /// In the account currency
-    #[serde(rename = "amount", skip_serializing_if = "Option::is_none")]
-    pub amount: Option<f32>,
+    #[serde(rename = "amount")]
+    pub amount: f32,
     /// Date and time
-    #[serde(rename = "dateTime", skip_serializing_if = "Option::is_none")]
-    pub date_time: Option<String>,
+    #[serde(rename = "dateTime")]
+    #[serde_as(as = "Rfc3339")]
+    pub date_time: OffsetDateTime,
     /// ID
-    #[serde(rename = "reference", skip_serializing_if = "Option::is_none")]
-    pub reference: Option<String>,
+    #[serde(rename = "reference")]
+    pub reference: Uuid,
     /// Type
-    #[serde(rename = "type", skip_serializing_if = "Option::is_none")]
-    pub r#type: Option<Type>,
+    #[serde(rename = "type")]
+    pub r#type: Type,
 }
 
 impl HistoryTransactionItem {
@@ -22,10 +29,10 @@ impl HistoryTransactionItem {
     #[must_use]
     pub const fn new() -> Self {
         Self {
-            amount: None,
-            date_time: None,
-            reference: None,
-            r#type: None,
+            amount: 0.0,
+            date_time: OffsetDateTime::UNIX_EPOCH,
+            reference: Uuid::nil(),
+            r#type: Type::Unknown,
         }
     }
 }
@@ -51,6 +58,9 @@ pub enum Type {
     /// Transfer
     #[serde(rename = "TRANSFER")]
     Transfer,
+    /// Unknown
+    #[serde(other)]
+    Unknown,
 }
 
 impl Default for Type {
