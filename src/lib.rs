@@ -56,6 +56,7 @@ pub struct Client {
     #[serde(skip_serializing, skip_deserializing)]
     #[derivative(PartialEq = "ignore")]
     client: reqwest::Client,
+    proxy: Option<String>,
 }
 
 impl Client {
@@ -93,16 +94,49 @@ impl Client {
                 target,
                 client: c,
                 token: token.to_string(),
+                proxy: None,
             }),
             Err(e) => Err(e.into()),
         }
+    }
+
+    /// Create a new client with a proxy
+    /// # Arguments
+    /// * `token` - The token to use for authentication
+    /// * `target` - The target to use for the API
+    /// * `proxy` - The proxy to use
+    /// # Errors
+    /// * `Error::Reqwest` - If the reqwest client can't be created
+    pub fn new_with_proxy(token: &str, target: Target, proxy: &str) -> Result<Self, Error> {
+        match Self::new(token, target) {
+            Ok(c) => Ok(c.with_proxy(proxy)),
+            Err(e) => Err(e),
+        }
+    }
+
+    /// Add a proxy to the client
+    /// # Arguments
+    /// * `proxy` - The proxy to use
+    /// # Returns
+    /// * `Self` - The client with the proxy
+    pub fn with_proxy(mut self, proxy: &str) -> Self {
+        self.proxy = Some(proxy.to_string());
+        self
     }
 
     async fn api_get<T: DeserializeOwned>(&self, rest_method: &str) -> Result<T, Error> {
         match self
             .client
             .get(format!(
-                "https://{}.trading212.com/api/v0/{rest_method}",
+                "{}https://{}.trading212.com/api/v0/{rest_method}",
+                match self.proxy {
+                    Some(ref p) => {
+                        p.clone()
+                    }
+                    None => {
+                        "".to_string()
+                    }
+                },
                 match self.target {
                     Target::Demo => {
                         "demo"
@@ -156,7 +190,15 @@ impl Client {
         match self
             .client
             .post(format!(
-                "https://{}.trading212.com/api/v0/{rest_method}",
+                "{}https://{}.trading212.com/api/v0/{rest_method}",
+                match self.proxy {
+                    Some(ref p) => {
+                        p.clone()
+                    }
+                    None => {
+                        "".to_string()
+                    }
+                },
                 match self.target {
                     Target::Demo => {
                         "demo"
@@ -209,7 +251,15 @@ impl Client {
         match self
             .client
             .delete(format!(
-                "https://{}.trading212.com/api/v0/{rest_method}",
+                "{}https://{}.trading212.com/api/v0/{rest_method}",
+                match self.proxy {
+                    Some(ref p) => {
+                        p.clone()
+                    }
+                    None => {
+                        "".to_string()
+                    }
+                },
                 match self.target {
                     Target::Demo => {
                         "demo"
