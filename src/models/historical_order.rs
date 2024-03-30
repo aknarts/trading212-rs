@@ -2,19 +2,26 @@
 
 use crate::models::order_type::Type;
 use crate::models::time_validity::TimeValidity;
+use serde_with::serde_as;
+use time::format_description::well_known::Rfc3339;
+use time::OffsetDateTime;
 
 /// Historical order model
+#[serde_as]
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct HistoricalOrder {
     /// Date created
     #[serde(rename = "dateCreated", skip_serializing_if = "Option::is_none")]
-    pub date_created: Option<String>,
+    #[serde_as(as = "Option<Rfc3339>")]
+    pub date_created: Option<OffsetDateTime>,
     /// Date executed
     #[serde(rename = "dateExecuted", skip_serializing_if = "Option::is_none")]
-    pub date_executed: Option<String>,
+    #[serde_as(as = "Option<Rfc3339>")]
+    pub date_executed: Option<OffsetDateTime>,
     /// Date modified
     #[serde(rename = "dateModified", skip_serializing_if = "Option::is_none")]
-    pub date_modified: Option<String>,
+    #[serde_as(as = "Option<Rfc3339>")]
+    pub date_modified: Option<OffsetDateTime>,
     /// Executor
     #[serde(rename = "executor", skip_serializing_if = "Option::is_none")]
     pub executor: Option<crate::models::executor::Executor>,
@@ -55,14 +62,14 @@ pub struct HistoricalOrder {
     #[serde(rename = "parentOrder", skip_serializing_if = "Option::is_none")]
     pub parent_order: Option<i64>,
     /// Status
-    #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
-    pub status: Option<Status>,
+    #[serde(rename = "status")]
+    pub status: Status,
     /// Applicable to stop orders
     #[serde(rename = "stopPrice", skip_serializing_if = "Option::is_none")]
     pub stop_price: Option<f32>,
     /// Taxes
-    #[serde(rename = "taxes", skip_serializing_if = "Option::is_none")]
-    pub taxes: Option<Vec<crate::models::tax::Tax>>,
+    #[serde(rename = "taxes")]
+    pub taxes: Vec<crate::models::tax::Tax>,
     /// Ticker
     #[serde(rename = "ticker", skip_serializing_if = "Option::is_none")]
     pub ticker: Option<String>,
@@ -70,8 +77,8 @@ pub struct HistoricalOrder {
     #[serde(rename = "timeValidity", skip_serializing_if = "Option::is_none")]
     pub time_validity: Option<TimeValidity>,
     /// Type
-    #[serde(rename = "type", skip_serializing_if = "Option::is_none")]
-    pub r#type: Option<Type>,
+    #[serde(rename = "type")]
+    pub r#type: Type,
 }
 
 impl HistoricalOrder {
@@ -95,12 +102,12 @@ impl HistoricalOrder {
             ordered_quantity: None,
             ordered_value: None,
             parent_order: None,
-            status: None,
+            status: Status::Unknown,
             stop_price: None,
-            taxes: None,
+            taxes: Vec::new(),
             ticker: None,
             time_validity: None,
-            r#type: None,
+            r#type: Type::Unknown,
         }
     }
 }
@@ -163,6 +170,9 @@ pub enum Status {
     /// Replaced
     #[serde(rename = "REPLACED")]
     Replaced,
+    /// Unknown
+    #[serde(other)]
+    Unknown,
 }
 
 impl Default for Status {

@@ -15,6 +15,9 @@ pub enum Type {
     /// Stop limit
     #[serde(rename = "STOP_LIMIT")]
     StopLimit,
+    /// Unknown
+    #[serde(other)]
+    Unknown,
 }
 
 impl Default for Type {
