@@ -217,6 +217,9 @@ pub enum Type {
     /// PROPERTY_INCOME_DISTRIBUTION
     #[serde(rename = "PROPERTY_INCOME_DISTRIBUTION")]
     PropertyIncomeDistribution,
+    /// Tax Exempted
+    #[serde(rename = "TAX_EXEMPTED")]
+    TaxExempted,
     /// Unknown
     #[serde(other)]
     Unknown,

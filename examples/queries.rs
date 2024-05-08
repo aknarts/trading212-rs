@@ -7,7 +7,7 @@ async fn main() {
     let token = env::var(ACCESS_TOKEN)
         .expect(format!("{} not specified in environment", ACCESS_TOKEN).as_str());
     let client = trading212::Client::new(&token, trading212::Target::Live).unwrap();
-    match client.get_paid_dividends(None, None, None).await {
+    match client.get_paid_dividends(Some(50), None, None).await {
         Ok(dividends) => {
             println!("Got {} dividends", dividends.items.len());
             for dividend in dividends.items {
@@ -23,6 +23,7 @@ async fn main() {
                 // }
                 println!();
             }
+            println!("Next cursor {:?} dividends", dividends.next_page_path);
         }
         Err(e) => {
             println!("Failed to get exchanges: {:?}", e)
