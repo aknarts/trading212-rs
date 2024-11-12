@@ -83,7 +83,7 @@ impl fmt::Display for Type {
             Self::Close => write!(f, "Close"),
             Self::AfterHoursClose => write!(f, "After-hours close"),
             Self::Unknown => write!(f, "Unknown"),
-            Type::OvernightOpen => write!(f, "Overnight Open"),
+            Self::OvernightOpen => write!(f, "Overnight Open"),
         }
     }
 }
