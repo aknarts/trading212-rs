@@ -1,6 +1,6 @@
 [package]
 name = "trading212"
-version = "0.2.10"
+version = "0.2.11"
 edition = "2021"
 description = "A library for interacting with the Trading212 API"
 license-file = "LICENSE"
@@ -17,9 +17,9 @@ derivative = "^2.2"
 serde = "^1.0"
 serde_derive = "^1.0"
 serde_json = "^1.0"
-thiserror = "1.0.34"
+thiserror = "2"
 time = { version = "^0.3", features = ["serde", "parsing", "serde-well-known"] }
-log = "0.4.21"
+log = "0.4"
 uuid = { version = "^1.0", features = ["serde", "v4"] }
 url = { version = "^2.5", features = ["serde"] }
 serde_with = { version = "3.4.0", features = ["time_0_3"] }
@@ -29,7 +29,7 @@ version = "^0.12"
 features = ["json", "multipart"]
 
 [dev-dependencies.tokio]
-version = "1.10"
+version = "1"
 features = ["full"]
 
 [dev-dependencies]
