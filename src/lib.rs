@@ -796,7 +796,7 @@ impl Client {
     /// #[tokio::main]
     /// async fn main() {
     ///    let client = Client::new("token", trading212::Target::Demo).unwrap();
-    ///    let dividends = client.get_historical_dividends(None, None, None).await.unwrap();
+    ///    let dividends = client.get_paid_dividends(None, None, None).await.unwrap();
     ///    println!("{:?}", dividends);
     /// }
     /// ```
