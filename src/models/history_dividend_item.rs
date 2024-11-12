@@ -220,6 +220,7 @@ pub enum Type {
     /// Tax Exempted
     #[serde(rename = "TAX_EXEMPTED")]
     TaxExempted,
+    /// Dividend Manufactured Payment
     #[serde(rename = "DIVIDEND_MANUFACTURED_PAYMENT")]
     DividendManufacturedPayment,
     /// Unknown
