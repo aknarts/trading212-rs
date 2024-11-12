@@ -4,16 +4,16 @@
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct InvestmentResult {
     /// Invested value
-    #[serde(rename = "investedValue")]
+    #[serde(rename = "priceAvgInvestedValue")]
     pub invested_value: f32,
     /// Result
-    #[serde(rename = "result")]
+    #[serde(rename = "priceAvgResult")]
     pub result: f32,
     /// Result coef
-    #[serde(rename = "resultCoef")]
+    #[serde(rename = "priceAvgResultCoef")]
     pub result_coef: f32,
     /// Value
-    #[serde(rename = "value")]
+    #[serde(rename = "priceAvgValue")]
     pub value: f32,
 }
 
