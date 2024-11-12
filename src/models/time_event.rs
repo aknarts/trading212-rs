@@ -66,7 +66,7 @@ pub enum Type {
     #[serde(rename = "AFTER_HOURS_CLOSE")]
     AfterHoursClose,
     /// Overnight Open
-    #[serce(rename = "OVERNIGHT_OPEN")]
+    #[serde(rename = "OVERNIGHT_OPEN")]
     OvernightOpen,
     /// Unknown
     Unknown,
@@ -83,6 +83,7 @@ impl fmt::Display for Type {
             Self::Close => write!(f, "Close"),
             Self::AfterHoursClose => write!(f, "After-hours close"),
             Self::Unknown => write!(f, "Unknown"),
+            Type::OvernightOpen => write!(f, "Overnight Open"),
         }
     }
 }
