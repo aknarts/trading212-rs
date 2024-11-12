@@ -114,6 +114,9 @@ pub enum Icon {
     /// Umbrella
     #[serde(rename = "Umbrella")]
     Umbrella,
+    /// Unknown
+    #[serde(other)]
+    Unknown,
 }
 
 impl Default for Icon {

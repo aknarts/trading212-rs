@@ -65,6 +65,9 @@ pub enum Type {
     /// After-hours close
     #[serde(rename = "AFTER_HOURS_CLOSE")]
     AfterHoursClose,
+    /// Overnight Open
+    #[serce(rename = "OVERNIGHT_OPEN")]
+    OvernightOpen,
     /// Unknown
     Unknown,
 }
