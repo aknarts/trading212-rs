@@ -877,6 +877,7 @@ impl Client {
     /// # Arguments
     /// * `limit` - The number of transactions to fetch
     /// * `cursor` - The cursor to use for pagination
+    /// * `time` - The of the cursor to use for pagination
     /// # Errors
     /// * `Error::Token` - Bad API key
     /// * `Error::Scope` - Scope( history:transactions ) missing for API key
@@ -890,14 +891,15 @@ impl Client {
     /// #[tokio::main]
     /// async fn main() {
     ///    let client = Client::new("token", trading212::Target::Live).unwrap();
-    ///    let transactions = client.transaction_list(None, None).await.unwrap();
+    ///    let transactions = client.transaction_list(None, None, None).await.unwrap();
     ///    println!("{:?}", transactions);
     /// }
     /// ```
     pub async fn transaction_list(
         &self,
         limit: Option<i32>,
-        cursor: Option<i64>,
+        cursor: Option<String>,
+        time: Option<String>,
     ) -> Result<models::paginated_response_history_transaction_item::PaginatedResponseHistoryTransactionItem, Error>{
         let mut path = "history/transactions".to_string();
         if limit.is_some() || cursor.is_some() {
@@ -908,6 +910,9 @@ impl Client {
         }
         if let Some(cursor) = cursor {
             path.push_str(format!("&cursor={cursor}").as_str());
+        }
+        if let Some(time) = time {
+            path.push_str(format!("&time={time}").as_str());
         }
         self.api_get(&path).await
     }
