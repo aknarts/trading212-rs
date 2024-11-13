@@ -25,6 +25,9 @@ pub enum Error {
     /// Timed out request
     #[error("The request has timed out")]
     Timeout,
+    /// Internal Server Error
+    #[error("Internal Server Error: {0}")]
+    InternalServerError(String),
     /// Too large request
     #[error("The requesting too many items")]
     TooLarge,

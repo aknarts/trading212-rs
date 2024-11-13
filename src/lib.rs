@@ -162,6 +162,11 @@ impl Client {
                 if resp.status() == StatusCode::REQUEST_TIMEOUT {
                     return Err(Error::Timeout);
                 }
+                if resp.status() == StatusCode::INTERNAL_SERVER_ERROR {
+                    return Err(Error::InternalServerError(
+                        resp.text().await.unwrap_or_default(),
+                    ));
+                }
                 match resp.text().await {
                     Ok(v) => {
                         let de: Result<T, _> = serde_json::from_str(&v);
@@ -228,6 +233,11 @@ impl Client {
                 if resp.status() == StatusCode::REQUEST_TIMEOUT {
                     return Err(Error::Timeout);
                 }
+                if resp.status() == StatusCode::INTERNAL_SERVER_ERROR {
+                    return Err(Error::InternalServerError(
+                        resp.text().await.unwrap_or_default(),
+                    ));
+                }
                 match resp.text().await {
                     Ok(v) => {
                         let de: Result<T, _> = serde_json::from_str(&v);
@@ -284,6 +294,11 @@ impl Client {
                 }
                 if resp.status() == StatusCode::REQUEST_TIMEOUT {
                     return Err(Error::Timeout);
+                }
+                if resp.status() == StatusCode::INTERNAL_SERVER_ERROR {
+                    return Err(Error::InternalServerError(
+                        resp.text().await.unwrap_or_default(),
+                    ));
                 }
                 match resp.text().await {
                     Ok(v) => Ok(v),
